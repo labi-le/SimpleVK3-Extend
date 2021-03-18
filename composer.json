@@ -25,7 +25,6 @@
     "autoload": {
         "psr-4": {
             "Labile\\SimpleVKExtend\\" : "src",
-            "DigitalStars\\SimpleVK\\": "vendor/digitalstars/simplevk/src/"
         }
     }
 }
