@@ -7,7 +7,10 @@ ___
 ## Содержание
 
 1. [Установка](#1-установка)
-3. [Методы](#2-методы)
+2. [Методы](#2-методы)
+3. [Примеры](#2-примеры)
+   + [Множественная загрузка историй](#31-множественная-загрузка-историй)
+   + [Множественная загрузка видео](#32-множественная-загрузка-видео)
 
 ___
 
@@ -26,14 +29,6 @@ ___
 
      /**
      * Загрузить множество видео асинхронно
-     *          $data =
-     *      [
-     *            $direct_link_or_local_file_path1 =>
-     *               ['name' => 'cat', 'description' => 'my cat' /* и так далее */ ],
-     *           
-     *           $direct_link_or_local_file_path2 =>
-     *               [ 'name' => 'dog', 'description' => 'my dog'  /* и так далее */ ] 
-     *       ];
      */
     public static function uploadMultiplyVideo(SimpleVK $vk, array $data): array|false
 	
@@ -45,14 +40,6 @@ ___
 	
      /**
      * Загрузить множество историй асинхронно
-     *          $data =
-     *      [
-     *            $direct_link_or_local_file_path1 =>
-     *               ['add_to_news' =>  1 /* и так далее */ ],
-     *           
-     *           $direct_link_or_local_file_path2 =>
-     *               ['add_to_news' =>  1 /* и так далее */ ],
-     *       ];
      */
     public static function createMultiplyStories(SimpleVK $vk, array $data): false|array
 	
@@ -60,4 +47,81 @@ ___
      * Получить всех менеджеров в группе
      */
     public static function getManagersGroup(SimpleVK $vk, int $group_id): array|false
+```
+## 3. Примеры
+
+### 3.1. Множественная загрузка историй
+```php
+declare(strict_types=1);
+
+use DigitalStars\SimpleVK\SimpleVK;
+use Labile\SimpleVKExtend\SimpleVKExtend;
+
+require '../vendor/autoload.php';
+
+const ACCESS_TOKEN = '';
+$vk = SimpleVK::create(ACCESS_TOKEN, '5.130');
+
+//массив с файлами\ссылками на файлы
+$links =
+    [
+        /**
+         * Видео из сети
+         */
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4' => ['add_to_news' => 1],
+
+        /**
+         * Локальное
+         */
+        'sample-short.mp4' => ['add_to_news' => 1]
+    ];
+
+/**
+ * output
+ *
+ * array(3) {
+ * [0] =>
+ * string(25) "story-200599231_456239080"
+ * [1] =>
+ * string(25) "story-200599231_456239082"
+ * }
+ */
+$data = SimpleVKExtend::createMultiplyStories($vk, $links);
+```
+
+### 3.2. Множественная загрузка историй
+```php
+declare(strict_types=1);
+
+use DigitalStars\SimpleVK\SimpleVK;
+use Labile\SimpleVKExtend\SimpleVKExtend;
+
+require '../vendor/autoload.php';
+
+const ACCESS_TOKEN = '';
+$vk = SimpleVK::create(ACCESS_TOKEN, '5.130');
+
+$links =
+    [
+        /**
+         * Видео из сети
+         */
+        'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4' => ['name' => 'video1'],
+
+        /**
+         * Локальное
+         */
+        'sample-short.mp4' => ['name' => 'video2']
+    ];
+
+/**
+ * output
+ * array(2) {
+ * [0] =>
+ * string(24) "video259166248_456241850"
+ * [1] =>
+ * string(24) "video259166248_456241851"
+ * }
+ */
+$data = SimpleVKExtend::uploadMultiplyVideo($vk, $links);
 ```
