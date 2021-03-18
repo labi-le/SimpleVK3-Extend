@@ -29,7 +29,7 @@ trait FileUploader
      * @return mixed
      * @throws Exception
      */
-    public static function openWebFile(string $external_file): mixed
+    private static function openWebFile(string $external_file): mixed
     {
         $tmp_file = tmpfile();
         $tmp_filename = stream_get_meta_data($tmp_file)['uri'];
@@ -43,7 +43,7 @@ trait FileUploader
      * @return mixed
      * @throws Exception
      */
-    public static function openLocalFile(string $path): mixed
+    private static function openLocalFile(string $path): mixed
     {
         return file_exists($path) ? file_get_contents($path) : throw new RuntimeException('Файл не найден');
     }
@@ -55,7 +55,7 @@ trait FileUploader
      * @return array
      * @throws Exception
      */
-    public static function createMultipart(string $file, string $name): array
+    private static function createMultipart(string $file, string $name): array
     {
         return
             [

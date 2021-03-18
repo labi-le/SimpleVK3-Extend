@@ -16,7 +16,7 @@ class SimpleVKExtendTest extends TestCase
             'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
         ];
 
-    private int $group_id = ;
+    private int $group_id = TYPE_GROUP_ID;
     private const USER_TOKEN = '';
 
     private SimpleVK $user_auth;
@@ -24,16 +24,6 @@ class SimpleVKExtendTest extends TestCase
     protected function setUp(): void
     {
         $this->user_auth = SimpleVK::create(self::USER_TOKEN, '5.130');
-    }
-
-    public function testOpenLocalFile(): void
-    {
-        self::assertIsString(SimpleVKExtend::openLocalFile($this->local_file));
-    }
-
-    public function testCreateMultipart(): void
-    {
-        self::assertIsArray(SimpleVKExtend::createMultipart($this->local_file, 'video_file'));
     }
 
     public function testUploadVideo(): void
@@ -68,8 +58,4 @@ class SimpleVKExtendTest extends TestCase
         self::assertIsArray(SimpleVKExtend::uploadMultiplyVideo($this->user_auth, $video));
     }
 
-    public function testOpenWebFile(): void
-    {
-        self::assertIsString(SimpleVKExtend::openWebFile($this->web_file[0]));
-    }
 }
