@@ -24,7 +24,7 @@
 
     "autoload": {
         "psr-4": {
-            "Labile\\SimpleVKExtend\\" : "src",
+            "Labile\\SimpleVKExtend\\" : "src"
         }
     }
 }
