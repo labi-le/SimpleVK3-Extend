@@ -11,6 +11,8 @@ ___
 3. [Примеры](#2-примеры)
    + [Множественная загрузка историй](#31-множественная-загрузка-историй)
    + [Множественная загрузка видео](#32-множественная-загрузка-видео)
+   + [Загрузка видео](#33-множественная-загрузка-видео)
+   + [Загрузка истории](#34-множественная-загрузка-видео)
 
 ___
 
@@ -50,14 +52,9 @@ ___
 ```
 ## 3. Примеры
 
-### 3.1. Множественная загрузка историй
+#### 3.1. Множественная загрузка историй
 ```php
 declare(strict_types=1);
-
-use DigitalStars\SimpleVK\SimpleVK;
-use Labile\SimpleVKExtend\SimpleVKExtend;
-
-require '../vendor/autoload.php';
 
 const ACCESS_TOKEN = '';
 $vk = SimpleVK::create(ACCESS_TOKEN, '5.130');
@@ -89,14 +86,9 @@ $links =
 $data = SimpleVKExtend::createMultiplyStories($vk, $links);
 ```
 
-### 3.2. Множественная загрузка видео
+#### 3.2. Множественная загрузка видео
 ```php
 declare(strict_types=1);
-
-use DigitalStars\SimpleVK\SimpleVK;
-use Labile\SimpleVKExtend\SimpleVKExtend;
-
-require '../vendor/autoload.php';
 
 const ACCESS_TOKEN = '';
 $vk = SimpleVK::create(ACCESS_TOKEN, '5.130');
@@ -124,4 +116,32 @@ $links =
  * }
  */
 $data = SimpleVKExtend::uploadMultiplyVideo($vk, $links);
+```
+
+#### 3.3. Загрузка видео
+```php
+declare(strict_types=1);
+
+const ACCESS_TOKEN = '';
+$vk = SimpleVK::create(ACCESS_TOKEN, '5.130');
+
+/**
+ * output
+ * video259166248_456241851
+ */
+echo SimpleVKExtend::uploadVideo($vk, 'sample-short.mp4', 'testVideo')
+```
+
+#### 3.4. Загрузка истории
+```php
+declare(strict_types=1);
+
+const ACCESS_TOKEN = '';
+$vk = SimpleVK::create(ACCESS_TOKEN, '5.130');
+
+/**
+ * output
+ * story-200599231_456239082
+ */
+echo SimpleVKExtend::createStories($vk, 'sample-short.mp4', 1)
 ```
