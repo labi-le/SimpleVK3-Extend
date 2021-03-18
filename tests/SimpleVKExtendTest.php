@@ -16,14 +16,15 @@ class SimpleVKExtendTest extends TestCase
             'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4'
         ];
 
-    private int $group_id = TYPE_GROUP_ID;
-    private const USER_TOKEN = '';
 
     private SimpleVK $user_auth;
+    private int $group_id;
 
     protected function setUp(): void
     {
-        $this->user_auth = SimpleVK::create(self::USER_TOKEN, '5.130');
+        $user_token = '';
+        $this->group_id = 0;
+        $this->user_auth = SimpleVK::create($user_token, '5.130');
     }
 
     public function testUploadVideo(): void
