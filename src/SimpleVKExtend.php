@@ -239,7 +239,6 @@ class SimpleVKExtend
                     ]
             ]);
 
-        var_dump($result);
         return is_array($result) ? $result[0] : $result;
     }
 
