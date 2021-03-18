@@ -1,6 +1,6 @@
-# PHP-VK-BOT
+# SimpleVK3 Extend
 
-Личная расширение для SimpleVK 3
+Личное расширение для SimpleVK 3
 
 ___
 
@@ -89,7 +89,7 @@ $links =
 $data = SimpleVKExtend::createMultiplyStories($vk, $links);
 ```
 
-### 3.2. Множественная загрузка историй
+### 3.2. Множественная загрузка видео
 ```php
 declare(strict_types=1);
 
