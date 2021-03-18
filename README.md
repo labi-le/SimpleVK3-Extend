@@ -18,6 +18,8 @@ ___
 
 ## 1. Установка
 
+> composer require digitalstars/simplevk:dev-testing
+> 
 > composer require labile/simple-vk3-extend
 
 ## 2. Методы
