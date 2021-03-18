@@ -1,0 +1,28 @@
+{
+    "name": "labile/simple-vk3-extend",
+    "description": "",
+    "authors": [
+        {
+            "name": "labile",
+            "email": "1a6i1e@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.2",
+        "amphp/parallel-functions": "^1.0",
+        "digitalstars/simplevk": "dev-testing",
+        "adbario/php-dot-notation": "^2.2"
+    }
+    ,
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "phpunit/phpunit": "^9.5"
+    },
+
+    "autoload": {
+        "psr-4": {
+            "Labile\\SimpleVKExtend\\" : "src",
+            "DigitalStars\\SimpleVK\\": "vendor/digitalstars/simplevk/src/"
+        }
+    }
+}
