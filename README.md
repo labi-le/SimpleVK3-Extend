@@ -5,6 +5,7 @@
 ___
 
 ## Содержание
+
 1. [Установка](#1-установка)
 3. [Методы](#2-методы)
 
@@ -15,7 +16,9 @@ ___
 > composer require labile/simple-vk3-extend
 
 ## 2. Методы
+
 ```php
+
      /**
      * Загрузить видео в вк
      */
@@ -53,7 +56,7 @@ ___
      */
     public static function createMultiplyStories(SimpleVK $vk, array $data): false|array
 	
-	    /**
+	 /**
      * Получить всех менеджеров в группе
      */
     public static function getManagersGroup(SimpleVK $vk, int $group_id): array|false
