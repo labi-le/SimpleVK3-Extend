@@ -1,6 +1,8 @@
 {
     "name": "labile/simple-vk3-extend",
     "description": "",
+    "license": "MIT",
+    "homepage": "https://github.com/labi-le/SimpleVK3-Extend/",
     "authors": [
         {
             "name": "labile",
