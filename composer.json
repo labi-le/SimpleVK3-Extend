@@ -8,6 +8,7 @@
         }
     ],
     "require": {
+        "php": "^8.0",
         "guzzlehttp/guzzle": "^7.2",
         "amphp/parallel-functions": "^1.0",
         "digitalstars/simplevk": "dev-testing",
