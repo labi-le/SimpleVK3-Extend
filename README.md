@@ -24,31 +24,31 @@ ___
 
 ```php
 
-     /**
-     * Загрузить видео в вк
-     */
-    public static function uploadVideo(SimpleVK $vk, string $file, string $name, string $description = null, bool $is_private = null, int $wallpost = null, int $group_id = null, int $album_id = null, int $no_comments = null, int $repeat = null, int $compression = null): string|false
+ /**
+ * Загрузить видео в вк
+ */
+public static function uploadVideo(SimpleVK $vk, string $file, string $name, string $description = null, bool $is_private = null, int $wallpost = null, int $group_id = null, int $album_id = null, int $no_comments = null, int $repeat = null, int $compression = null): string|false
 
-     /**
-     * Загрузить множество видео асинхронно
-     */
-    public static function uploadMultiplyVideo(SimpleVK $vk, array $data): array|false
+ /**
+ * Загрузить множество видео асинхронно
+ */
+public static function uploadMultiplyVideo(SimpleVK $vk, array $data): array|false
 	
-     /**
-     * Загрузить историю
-     * История не должна быть длиннее 15 секунд
-     */
-    public static function createStories(SimpleVK $vk, string $file, int $add_to_news, string|int $user_ids = null, int $reply_to_story = null, string $link_text = null, string $link_url = null, int $group_id = null, string $clickable_stickers = null): string|false
+ /**
+ * Загрузить историю
+ * История не должна быть длиннее 15 секунд
+ */
+public static function createStories(SimpleVK $vk, string $file, int $add_to_news, string|int $user_ids = null, int $reply_to_story = null, string $link_text = null, string $link_url = null, int $group_id = null, string $clickable_stickers = null): string|false
 	
-     /**
-     * Загрузить множество историй асинхронно
-     */
-    public static function createMultiplyStories(SimpleVK $vk, array $data): false|array
+ /**
+ * Загрузить множество историй асинхронно
+ */
+public static function createMultiplyStories(SimpleVK $vk, array $data): false|array
 	
-     /**
-     * Получить всех менеджеров в группе
-     */
-    public static function getManagersGroup(SimpleVK $vk, int $group_id): array|false
+ /**
+ * Получить всех менеджеров в группе
+ */
+public static function getManagersGroup(SimpleVK $vk, int $group_id): array|false
 ```
 ## 3. Примеры
 
