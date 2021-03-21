@@ -189,7 +189,11 @@ class SimpleVKExtend
         $callback = static function (Response $response) use (&$upload_results) {
             $res = $response->getBody()->read(1024);
             $item = json_decode($res, true, 512, JSON_THROW_ON_ERROR);
-            $upload_results[] = $item['response']['upload_result'];
+            if (isset($item['response'])) {
+                $upload_results[] = $item['response']['upload_result'];
+            } else {
+                $upload_results[] = null;
+            }
         };
 
         self::uploadAsync($upload_url, $link, 'video_file', $callback)->wait();
@@ -197,7 +201,9 @@ class SimpleVKExtend
         function fetchAttachments(array $items): array
         {
             foreach ($items as $item) {
-                $attachments[] = 'story' . $item['owner_id'] . '_' . $item['id'];
+                if($item !== null) {
+                    $attachments[] = 'story' . $item['owner_id'] . '_' . $item['id'];
+                }
             }
             return $attachments;
         }
