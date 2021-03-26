@@ -49,7 +49,6 @@ class SimpleVKExtend
         $message === null ?: $data['text'] = $message;
         $message === null ?: $data['text_lower'] = mb_strtolower($message);
         $payload === null ?: $data['payload'] = $payload;
-        var_dump($SimpleVKData);
         !isset($SimpleVKData['object']['message']['action']) ?: $data['action'] = $SimpleVKData['object']['message']['action'];
         $msg_id === null ?: $data['message_id'] = $msg_id;
 
