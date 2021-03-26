@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Labile\SimpleVKExtend;
 
-use Adbar\Dot;
 use DigitalStars\SimpleVK\LongPoll;
 use DigitalStars\SimpleVK\SimpleVK;
 use DigitalStars\SimpleVK\SimpleVkException;
@@ -37,36 +36,30 @@ class SimpleVKExtend
      */
     public static function parse(SimpleVK|LongPoll $vk): void
     {
-        $SimpleVKData = $vk->initVars($id, $user_id, $type, $message, $payload, $msg_id, $attachments);   // Парсинг полученных событий
-
-        $data = static function (string $get) use ($SimpleVKData) {
-            return dot($SimpleVKData)->get($get);
-        };
-
-        $var = new Dot();
+        $SimpleVKData = $vk->initVars($id, $user_id, $type, $message, $payload, $msg_id, $attachments);
 
         $chat_id = $id - 2e9;
         $chat_id = $chat_id > 0 ? (int)$chat_id : null;
 
-        $data('group_id') === null ?: $var->add('group_id', $data('group_id'));
-        $id === null ?: $var->add('peer_id', $id);
-        $chat_id === null ?: $var->add('chat_id', $chat_id);
-        $user_id === null ?: $var->add('user_id', $user_id);
-        $type === null ?: $var->add('type', $type);
-        $message === null ?: $var->add('text', $message);
-        $message === null ?: $var->add('text_lower', mb_strtolower($message));
-        $payload === null ?: $var->add('payload', $payload);
-        $data('object.message.action') === null ?: $var->add('action', $data('object.message.action'));
-        $msg_id === null ?: $var->add('message_id', $msg_id);
+        $SimpleVKData['group_id'] === null ?: $data['group_id'] = $SimpleVKData['group_id'];
+        $id === null ?: $data['peer_id'] = $id;
+        $chat_id === null ?: $data['chat_id'] = $chat_id;
+        $user_id === null ?: $data['user_id'] = $user_id;
+        $type === null ?: $data['type'] = $type;
+        $message === null ?: $data['text'] = $message;
+        $message === null ?: $data['text_lower'] = mb_strtolower($message);
+        $payload === null ?: $data['payload'] = $payload;
+        $SimpleVKData['object.message.action'] === null ?: $data['action'] = $SimpleVKData['object.message.action'];
+        $msg_id === null ?: $data['message_id'] = $msg_id;
 
-        $data('object.message.conversation_message_id') === null ?: $var->add('conversation_message_id', $data('object.message.conversation_message_id'));
-        $data('object.conversation_message_id') === null ?: $var->add('conversation_message_id', $data('object.conversation_message_id'));
+        $SimpleVKData('object.message.conversation_message_id') === null ?: $data['conversation_message_id'] = $SimpleVKData['object.message.conversation_message_id'];
+        $SimpleVKData('object.conversation_message_id') === null ?: $data['conversation_message_id'] = $SimpleVKData['object.conversation_message_id'];
 
-        $attachments === null ?: $var->add('attachments', $attachments); //если вложений больше 4 то они не будут отображаться (баг вк), как костыль можно использовать getById
-        $data('object.message.fwd_messages') === null ?: $var->add('fwd_messages', $data('object.message.fwd_messages'));
-        $data('object.message.reply_message') === null ?: $var->add('reply_message', $data('object.message.reply_message'));
+        $attachments === null ?: $data['attachments'] = $attachments; //если вложений больше 4 то они не будут отображаться (баг вк), как костыль можно использовать getById
+        $SimpleVKData['object.message.fwd_messages'] === null ?: $data['fwd_messages'] = $SimpleVKData['object.message.fwd_messages'];
+        $SimpleVKData['object.message.reply_message'] === null ?: $data['reply_message'] = $SimpleVKData['object.message.reply_message'];
 
-        self::$vars = $var->all();
+        self::$vars = $data;
     }
 
     /**
@@ -121,6 +114,7 @@ class SimpleVKExtend
                     ]
             ]);
 
+        var_dump($result);
         return is_array($result) ? $result[0] : $result;
     }
 
@@ -175,7 +169,7 @@ class SimpleVKExtend
     {
         foreach ($data as $url => $params) {
             $response = self::getStoriesUploadServer($vk,
-                add_to_news: !isset($params['add_to_news']) ?: $params['add_to_news'],
+                add_to_news: $params['add_to_news'] ?? null,
                 user_ids: $params['user_ids'] ?? null,
                 reply_to_story: $params['reply_to_story'] ?? null,
                 link_text: $params['link_text'] ?? null,
@@ -187,12 +181,10 @@ class SimpleVKExtend
         }
 
         $callback = static function (Response $response) use (&$upload_results) {
-            $res = $response->getBody()->read(1024);
+            $res = (string)$response->getBody();
             $item = json_decode($res, true, 512, JSON_THROW_ON_ERROR);
             if (isset($item['response'])) {
                 $upload_results[] = $item['response']['upload_result'];
-            } else {
-                $upload_results[] = null;
             }
         };
 
@@ -201,7 +193,7 @@ class SimpleVKExtend
         function fetchAttachments(array $items): array
         {
             foreach ($items as $item) {
-                if($item !== null) {
+                if ($item !== null) {
                     $attachments[] = 'story' . $item['owner_id'] . '_' . $item['id'];
                 }
             }
