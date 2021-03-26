@@ -49,15 +49,15 @@ class SimpleVKExtend
         $message === null ?: $data['text'] = $message;
         $message === null ?: $data['text_lower'] = mb_strtolower($message);
         $payload === null ?: $data['payload'] = $payload;
-        $SimpleVKData['object.message.action'] === null ?: $data['action'] = $SimpleVKData['object.message.action'];
+        $SimpleVKData['object_message_action'] === null ?: $data['action'] = $SimpleVKData['object_message_action'];
         $msg_id === null ?: $data['message_id'] = $msg_id;
 
-        $SimpleVKData('object.message.conversation_message_id') === null ?: $data['conversation_message_id'] = $SimpleVKData['object.message.conversation_message_id'];
-        $SimpleVKData('object.conversation_message_id') === null ?: $data['conversation_message_id'] = $SimpleVKData['object.conversation_message_id'];
+        $SimpleVKData('object_message_conversation_message_id') === null ?: $data['conversation_message_id'] = $SimpleVKData['object_message_conversation_message_id'];
+        $SimpleVKData('object_conversation_message_id') === null ?: $data['conversation_message_id'] = $SimpleVKData['object_conversation_message_id'];
 
         $attachments === null ?: $data['attachments'] = $attachments; //если вложений больше 4 то они не будут отображаться (баг вк), как костыль можно использовать getById
-        $SimpleVKData['object.message.fwd_messages'] === null ?: $data['fwd_messages'] = $SimpleVKData['object.message.fwd_messages'];
-        $SimpleVKData['object.message.reply_message'] === null ?: $data['reply_message'] = $SimpleVKData['object.message.reply_message'];
+        $SimpleVKData['object_message_fwd_messages'] === null ?: $data['fwd_messages'] = $SimpleVKData['object_message_fwd_messages'];
+        $SimpleVKData['object_message_reply_message'] === null ?: $data['reply_message'] = $SimpleVKData['object_message_reply_message'];
 
         self::$vars = $data;
     }
