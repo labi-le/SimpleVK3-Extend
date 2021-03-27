@@ -17,8 +17,6 @@ use GuzzleHttp\Promise\PromiseInterface;
 use GuzzleHttp\Psr7\Response;
 use RuntimeException;
 use Throwable;
-use function Amp\ParallelFunctions\parallelMap;
-use function Amp\Promise\wait;
 
 trait FileUploader
 {
@@ -34,7 +32,7 @@ trait FileUploader
         $tmp_file = tmpfile();
         $tmp_filename = stream_get_meta_data($tmp_file)['uri'];
 
-        return copy($external_file, $tmp_filename) ? file_get_contents($tmp_filename) : throw new Exception('Не удалось загрузить файл');
+        return copy($external_file, $tmp_filename) ? fopen($tmp_filename, 'rb') : throw new Exception('Не удалось загрузить файл');
     }
 
     /**
@@ -45,7 +43,7 @@ trait FileUploader
      */
     private static function openLocalFile(string $path): mixed
     {
-        return file_exists($path) ? file_get_contents($path) : throw new RuntimeException('Файл не найден');
+        return file_exists($path) ? fopen($path, 'rb') : throw new RuntimeException('Файл не найден');
     }
 
     /**
@@ -85,16 +83,10 @@ trait FileUploader
     {
         $client = new Client();
 
-        $promise = parallelMap($data, function ($url) use ($name) {
-            return SimpleVKExtend::createMultipart($url, $name);
-        });
-
-        $multipart = wait($promise);
-
-        $requests = static function (array $vk_upload_url) use ($multipart, $client) {
+        $requests = static function (array $vk_upload_url) use ($data, $name, $client) {
             for ($i = 0, $iMax = count($vk_upload_url); $i < $iMax; $i++) {
-                yield static function () use ($multipart, $vk_upload_url, $client, $i) {
-                    return $client->postAsync($vk_upload_url[$i], $multipart[$i]);
+                yield static function () use ($name, $data, $vk_upload_url, $client, $i) {
+                    return $client->postAsync($vk_upload_url[$i], SimpleVKExtend::createMultipart($data[$i], $name));
                 };
             }
         };

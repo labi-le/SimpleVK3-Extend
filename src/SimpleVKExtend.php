@@ -114,7 +114,6 @@ class SimpleVKExtend
                     ]
             ]);
 
-        var_dump($result);
         return is_array($result) ? $result[0] : $result;
     }
 
@@ -129,15 +128,15 @@ class SimpleVKExtend
     {
         foreach ($data as $url => $params) {
             $response = self::getVkVideoUploadUrl($vk,
-                name: $params['name'] ?? uniqid('', false),
-                description: $params['description'] ?? null,
-                is_private: $params['is_private'] ?? null,
-                wallpost: $params['wallpost'] ?? null,
-                group_id: $params['group_id'] ?? null,
-                album_id: $params['album_id'] ?? null,
-                no_comments: $params['no_comments'] ?? null,
-                repeat: $params['repeat'] ?? null,
-                compression: $params['compression'] ?? null
+                $params['name'] ?? uniqid('', false),
+                $params['description'] ?? null,
+                $params['is_private'] ?? null,
+                $params['wallpost'] ?? null,
+                $params['group_id'] ?? null,
+                $params['album_id'] ?? null,
+                $params['no_comments'] ?? null,
+                $params['repeat'] ?? null,
+                $params['compression'] ?? null
             );
             $upload_url[] = $response['upload_url'];
             $link[] = $url;
@@ -169,13 +168,13 @@ class SimpleVKExtend
     {
         foreach ($data as $url => $params) {
             $response = self::getStoriesUploadServer($vk,
-                add_to_news: $params['add_to_news'] ?? null,
-                user_ids: $params['user_ids'] ?? null,
-                reply_to_story: $params['reply_to_story'] ?? null,
-                link_text: $params['link_text'] ?? null,
-                link_url: $params['link_url'] ?? null,
-                group_id: $params['group_id'] ?? null,
-                clickable_stickers: $params['clickable_stickers'] ?? null);
+                $params['add_to_news'] ?? null,
+                $params['user_ids'] ?? null,
+                $params['reply_to_story'] ?? null,
+                $params['link_text'] ?? null,
+                $params['link_url'] ?? null,
+                $params['group_id'] ?? null,
+                $params['clickable_stickers'] ?? null);
             $upload_url[] = $response['upload_url'];
             $link[] = $url;
         }
