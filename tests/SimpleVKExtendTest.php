@@ -22,7 +22,7 @@ class SimpleVKExtendTest extends TestCase
 
     protected function setUp(): void
     {
-        $user_token = '';
+        $user_token = 'addc565a65b9c22eaf2c14a9c5818c4437818be05fe52076e2576f306ad8bf9c582a6be3ca766224178a0';
         $this->group_id = 0;
         $this->user_auth = SimpleVK::create($user_token, '5.130');
     }
@@ -57,6 +57,45 @@ class SimpleVKExtendTest extends TestCase
             $video[$direct_link]['name'] = 'video ' . $i++;
         }
         self::assertIsArray(SimpleVKExtend::uploadMultiplyVideo($this->user_auth, $video));
+    }
+
+    public function testParse()
+    {
+        $garbage = '{"type": "message_new", "object": {"message": {"from_id": 418618, "id": 2222222222222, "peer_id": 2000000003, "text": "I LoVe WoMaN", "conversation_message_id": 218, "action": {"type": "chat_create", "text": "test"}, "fwd_messages": [], "attachments": []}}, "group_id": 777}';
+        $structure_garbage = json_decode($garbage, true);
+
+        $new_backup_data = $structure_garbage;
+
+        $structure_garbage['object'] = $structure_garbage['object']['message'];
+        $new_data = $structure_garbage;
+
+        $SimpleVK = SimpleVK::create('', '');
+        $reflectionSimpleVK = new ReflectionClass($SimpleVK);
+
+        $data = $reflectionSimpleVK->getProperty('data');
+        $data->setAccessible(true);
+        $data->setValue($SimpleVK, $new_data);
+
+        $data_backup = $reflectionSimpleVK->getProperty('data_backup');
+        $data_backup->setAccessible(true);
+        $data_backup->setValue($SimpleVK, $new_backup_data);
+
+        SimpleVKExtend::parse($SimpleVK);
+
+        self::assertIsInt( SimpleVKExtend::getVars('group_id'));
+        self::assertIsInt(SimpleVKExtend::getVars('peer_id'));
+        self::assertIsInt(SimpleVKExtend::getVars('chat_id'));
+        self::assertIsInt(SimpleVKExtend::getVars('user_id'));
+        self::assertIsString(SimpleVKExtend::getVars('type'));
+        self::assertIsString(SimpleVKExtend::getVars('text'));
+        self::assertIsString(SimpleVKExtend::getVars('text_lower'));
+        self::assertNull(SimpleVKExtend::getVars('payload'));
+        self::assertIsArray(SimpleVKExtend::getVars('action'));
+        self::assertIsInt(SimpleVKExtend::getVars('message_id'));
+        self::assertIsInt(SimpleVKExtend::getVars('conversation_message_id'));
+        self::assertIsArray(SimpleVKExtend::getVars('attachments'));
+        self::assertIsArray(SimpleVKExtend::getVars('fwd_messages'));
+        self::assertIsArray(SimpleVKExtend::getVars('reply_message'));
     }
 
 }

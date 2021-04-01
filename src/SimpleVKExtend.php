@@ -41,23 +41,37 @@ class SimpleVKExtend
         $chat_id = $id - 2e9;
         $chat_id = $chat_id > 0 ? (int)$chat_id : null;
 
-        !isset($SimpleVKData['group_id']) ?: $data['group_id'] = $SimpleVKData['group_id'];
-        $id === null ?: $data['peer_id'] = $id;
-        $chat_id === null ?: $data['chat_id'] = $chat_id;
-        $user_id === null ?: $data['user_id'] = $user_id;
-        $type === null ?: $data['type'] = $type;
-        $message === null ?: $data['text'] = $message;
-        $message === null ?: $data['text_lower'] = mb_strtolower($message);
-        $payload === null ?: $data['payload'] = $payload;
-        !isset($SimpleVKData['object']['message']['action']) ?: $data['action'] = $SimpleVKData['object']['message']['action'];
-        $msg_id === null ?: $data['message_id'] = $msg_id;
-
-        !isset($SimpleVKData['object']['message']['conversation_message_id']) ?: $data['conversation_message_id'] = $SimpleVKData['object']['message']['conversation_message_id'];
-        !isset($SimpleVKData['object']['conversation']['message_id']) ?: $data['conversation_message_id'] = $SimpleVKData['object']['conversation']['message_id'];
-
-        $attachments === null ?: $data['attachments'] = $attachments; //если вложений больше 4 то они не будут отображаться (баг вк), как костыль можно использовать getById
-        !isset($SimpleVKData['object']['message']['fwd_messages']) ?: $data['fwd_messages'] = $SimpleVKData['object']['message']['fwd_messages'];
-        !isset($SimpleVKData['object']['message']['reply_message']) ?: $data['reply_message'] = ['object']['message']['reply_message'];
+        [
+            $data['group_id'],
+            $data['peer_id'],
+            $data['chat_id'],
+            $data['user_id'],
+            $data['type'],
+            $data['text'],
+            $data['text_lower'],
+            $data['payload'],
+            $data['action'],
+            $data['message_id'],
+            $data['conversation_message_id'],
+            $data['attachments'],
+            $data['fwd_messages'],
+            $data['reply_message']
+        ] = [
+            $SimpleVKData['group_id'] ?? null,
+            $id ?? null,
+            $chat_id ?? null,
+            $user_id ?? null,
+            $type ?? null,
+            $message ?? null,
+            isset($message) ? mb_strtolower($message) : null,
+            $payload ?? null,
+            $SimpleVKData['object']['message']['action'] ?? null,
+            $msg_id,
+            $SimpleVKData['object']['message']['conversation_message_id'] ?? null,
+            $attachments,
+            $SimpleVKData['object']['message']['fwd_messages'] ?? [],
+            $SimpleVKData['object']['message']['reply_message'] ?? [],
+        ];
 
         self::$vars = $data;
     }
