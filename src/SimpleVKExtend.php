@@ -270,16 +270,16 @@ class SimpleVKExtend
                     'filter' => 'managers'
                 ]
             );
+
+            if (isset($response['count']) && $response['count'] > 0) {
+                $ids = null;
+                foreach ($response['items'] as $item) {
+                    $ids[] = $item['id'];
+                }
+                return $ids;
+            }
         } catch (Exception) {
             throw new RuntimeException('Токен не имеет доступа к менеджерам группы');
-        }
-
-        if (isset($response['count']) && $response['count'] > 0) {
-            $ids = null;
-            foreach ($response['items'] as $item) {
-                $ids[] = $item['id'];
-            }
-            return $ids;
         }
 
         return false;
