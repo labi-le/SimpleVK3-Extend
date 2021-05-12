@@ -22,7 +22,7 @@ class SimpleVKExtendTest extends TestCase
 
     protected function setUp(): void
     {
-        $user_token = 'addc565a65b9c22eaf2c14a9c5818c4437818be05fe52076e2576f306ad8bf9c582a6be3ca766224178a0';
+        $user_token = 'slut';
         $this->group_id = 0;
         $this->user_auth = SimpleVK::create($user_token, '5.130');
     }
